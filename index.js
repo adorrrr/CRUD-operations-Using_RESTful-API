@@ -2,11 +2,12 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const path = require("path");
+const methodOberride = require("method-override");
 
 const { v4: uuidv4 } = require('uuid');
 
 
-
+app.use(methodOberride('_method'))
 app.use(express.urlencoded({extended: true}))
 
 app.set("view engine", "ejs");
@@ -64,17 +65,14 @@ app.patch("/posts/:id", (req, res) => {
     let newContent = req.body.content;
 
     let post = posts.find((e) => e.id === id);
-    if (!post) {
-        return res.status(404).send("Post not found");
-    }
     post.content = newContent;
-    res.send("Updated successfully");
+    res.redirect("/posts");
 });
 
 app.get("/posts/:id/edit", (req, res) =>{
     let {id} =req.params;
     let post = posts.find((e) => id === e.id);
-    res.render("show.ejs", {post});
+    res.render("edit.ejs", {post});
 })
 
 app.listen(port,() =>{
