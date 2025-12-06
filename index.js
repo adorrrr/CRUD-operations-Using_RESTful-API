@@ -46,7 +46,7 @@ app.get("/posts/new", (req, res) =>{
     res.render("new.ejs", {posts});
 })
 
-
+//created post
 app.post("/posts", (req, res) =>{
     let { username, content} = req.body;
     let id = uuidv4();
@@ -54,12 +54,14 @@ app.post("/posts", (req, res) =>{
     res.redirect("/posts");
 })
 
+//Show post details
 app.get("/posts/:id", (req, res) =>{
     let {id} =req.params;
     let post = posts.find((e) => id === e.id);
     res.render("show.ejs", {post});
 })
 
+//Edit Contant
 app.patch("/posts/:id", (req, res) => {
     let { id } = req.params;
     let newContent = req.body.content;
@@ -69,12 +71,14 @@ app.patch("/posts/:id", (req, res) => {
     res.redirect("/posts");
 });
 
+
 app.patch("/posts/:id", (req, res) => {
     let { id } = req.params;
     let post = posts.find((e) => e.id === id);
 
 });
 
+//Post deleted 
 app.get("/posts/:id/edit", (req, res) =>{
     let {id} =req.params;
     posts = posts.filter((e) => id !== e.id);
